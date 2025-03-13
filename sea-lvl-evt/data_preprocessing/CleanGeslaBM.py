@@ -16,8 +16,6 @@ from Cleaning import all_clean
 #The columns are expressed in (lat,lon) coordinates, allowing for spatial dependency in models
 
 #The GESLA data file contanins a metafile (csv) and a folder with tidle gauge station data
-metafile = "/home/sm_seuba/Documents/GESLA3_ALL_2.csv"  #Change to yours
-datapath = "/home/sm_seuba/Documents/GESLA3 DATA SWE/"  #Prepared so that it only containing Swedish tidal gauge stations 
 
 #Function that takes in datapath and returns a list of all the filenames in the path
 def swe_data(datapath): return [f for f in listdir(datapath) if isfile(join(datapath, f))]
