@@ -11,6 +11,6 @@ import arviz as az
 import pytensor.tensor as at
 import pymc_experimental.distributions as pmx
 
-from data_analysis import * #We import the modules 
-from data_preprocessing import *  #We import the modules 
-from model_utils import * #We import the modules 
+from sea_lvl_evt.data_analysis import * #We import the modules 
+from sea_lvl_evt.data_preprocessing import *  #We import the modules 
+from sea_lvl_evt.model_utils import * #We import the modules 
