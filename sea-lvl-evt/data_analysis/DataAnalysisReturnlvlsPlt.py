@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import arviz as az
 import numpy as np
 import math
-from DataAnalysisUtil import (sup_supprt_Ys, BHM_idata_mean_df, BHM_idata_qtiles_df,  
+from DataAnalysisUtil import (BHM_idata_mean_df, BHM_idata_qtiles_df,  
                               BHM_idata_hpdi_df, Baseline_GEV_return_lvl_mean_ci_by_MLM)
 from matplotlib.ticker import ScalarFormatter
 plt.style.use('tableau-colorblind10')
