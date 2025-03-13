@@ -9,10 +9,8 @@ from DataAnalysisUtil import (lat_lon_in_BM, BHM_idata_mean_df, BHM_idata_std_df
 from DataAnalysisReturnlvlsPlt import (BHM_hpdi_and_MLM_ci_return_lvl_Loo_plot, BHM_hpdi_and_MLM_ci_return_lvl_site_compare_plots, 
                                        BHM_hpdi_and_MLM_ci_return_lvl_Loo_compare_plot, BHM_hdpi_and_MLM_ci_return_lvl_multiple_sites_plot, BHM_hpdi_and_MLM_ci_return_lvl_Loo_multiple_models_plot, BHM_hpdi_MSB_LOO_stations_plot)
  
-#from DataAnalysisOldFunctions import (BHM_compare_return_lvl_qtlie_site_plot, 
-#                                       BHM_compare_return_lvl_hpdi_site_plot, BHM_return_lvl_qtils_site_plot,BHM_return_lvl_hpdi_site_plots)
+
 from DataAnalysisArvizPlt import BHM_subset_denisty_comparsion_plot, BHM_subset_pair_plot, BHM_GEV_param_LOO_posterior_plot, BHM_supp_GEV_KDE_plot, BHM_geographical_spread_GEV_param_posterior_plot, LOO_pair_plot
-from HilbertSpaceLatLon import calculate_Kapprox, calculate_K
 import pandas as pd
 import plotly.io as pio
 pio.renderers.default = "notebook"
@@ -137,39 +135,6 @@ def Baseline_GEV_param_resampeling_KDE_plots(data_train,resampeling=1000, Baseli
         return fig, axes
     plt.show()
 
-
-def HSGP_LatLon_Gram_matrix_approx_comparison_plots(chosen_ell, XY_base, variable_name, approx_dict, cov_func_name="matern52", figsize=(14,7),show=True):
-    '''Function that takes in a length_scale, XY (lat,lon) cordinates, variable, name, a nested dict, where the keys are columns,
-     values are dicts where the keys are rows and values are list of len(2). Contaning number of basis vectors and scaling factor.
-      A covariance function name corresponding to the covariance one wants to approximate.  
-     '''
-    n_columns = len(approx_dict)+1
-    fig, axs = plt.subplots(2, n_columns, figsize=figsize, sharey=True)
-    K = calculate_K(XY_base,chosen_ell, cov_func_name=cov_func_name)
-    axs[0, 0].imshow(K, cmap="inferno", vmin=0, vmax=1)
-    axs[0, 0].set(xlabel="x1", ylabel="x2", title=f"True Gram matrix\nTrue $\\ell$ = {chosen_ell}")
-    axs[1, 0].axis("off")
-    im_kwargs = {
-        "cmap": "inferno",
-        "vmin": 0,
-        "vmax": 1,
-        "interpolation": "none",
-    }
-    for i, columns in enumerate(approx_dict):
-        for j, rows in enumerate(approx_dict[columns]):
-            m, c = approx_dict[columns][rows][0],approx_dict[columns][rows][1]
-            m_star = np.prod(m)
-            K_approx = calculate_Kapprox(XY_base, c, m,chosen_ell, cov_func_name=cov_func_name)
-            axs[j, i+1].imshow(K_approx, **im_kwargs)
-            axs[j, i+1].set_title(f"m = {m}, c = {c}, m* = {m_star}")
-    for ax in axs.flatten():
-        ax.grid(False)
-    fig.suptitle(f'The true Gram maxtrix for cov_{variable_name}:{cov_func_name}Chordal with ls={chosen_ell} and HS approximated ', fontsize=16)
-    fig.tight_layout()
-    if show is False:
-        return fig, axs
-    else:
-        return plt.show()
     
 def Baseline_GEV_param_KDE_comparison_plot(Baseline_data_train, Baseline_region_BM, figsize=(20,15), MLE_consistent=True, CI_consistent=True, show=True):
     '''
